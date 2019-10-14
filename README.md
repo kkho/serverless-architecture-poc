@@ -1,2 +1,17 @@
 # serverless-architecture-poc
-Azure Functions, Durable functions
+
+## Azure DevOps Status
+
+## Requirements
+
+## How to run locally
+
+## Use case
+
+### Azure Functions
+
+
+### Durable Functions
+
+
+## Powerpoint slides
