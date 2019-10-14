@@ -1,4 +1,4 @@
-# serverless-architecture-poc
+# Serverless Architecture - PoC for booking flights and hotels
 
 ## Azure DevOps Status
 
