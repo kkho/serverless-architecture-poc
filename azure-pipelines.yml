@@ -1,27 +1,25 @@
 pool:
   vmImage: ubuntu-16.04
 
-jobs:
-  - job: "Build and Create artifact for Serverless Architecture POC"
-  steps:
-    - script: |
-      dotnet restore
-      dotnet build --configuration Release
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: publish
-        arguments: '--configuration Release --output publish_output'
-        projects: '*.csproj'
-        publishWebProjects: false
-        modifyOutputPath: true
-        zipAfterPublish: false
-    - task: ArchiveFiles@2
-      displayName: "Archive files"
-      inputs:
-        rootFolderOrFile: "$(System.DefaultWorkingDirectory)/publish_output/s"
-        includeRootFolder: false
-        archiveFile: "$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip"
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: '$(System.DefaultWorkingDirectory)/$(Build.BuildId).zip'
-        name: 'drop'
+steps:
+- script: |
+    dotnet restore
+    dotnet build --configuration Release
+- task: DotNetCoreCLI@2
+  inputs:
+    command: publish
+    arguments: '--configuration Release --output publish_output'
+    projects: '*.csproj'
+    publishWebProjects: false
+    modifyOutputPath: true
+    zipAfterPublish: false
+- task: ArchiveFiles@2
+  displayName: "Archive files"
+  inputs:
+    rootFolderOrFile: "$(System.DefaultWorkingDirectory)/publish_output/s"
+    includeRootFolder: false
+    archiveFile: "$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip"
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(System.DefaultWorkingDirectory)/$(Build.BuildId).zip'
+    name: 'drop'
