@@ -1,12 +1,8 @@
-variables:
-  azureSubscription: '{ARM ACCESS TOKEN NAME}'
-  functionappName: '{NAME OF FUNCTIONAPP}'
-
 pool:
   vmImage: ubuntu-16.04
 
 jobs:
-  - job: "Build and Create artifact"
+  - job: "Build and Create artifact for Serverless Architecture POC"
   steps:
     - script: |
       dotnet restore
@@ -29,9 +25,3 @@ jobs:
       inputs:
         PathtoPublish: '$(System.DefaultWorkingDirectory)/$(Build.BuildId).zip'
         name: 'drop'
-    - task: AzureRmWebAppDeployment@4
-      inputs:
-        connectionType: 'AzureRM'
-        azureSubscription: "$(azureSubscription)"
-        appType: 'functionAppLinux'
-        webAppName: "$(functionappName)"
