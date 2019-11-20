@@ -1,5 +1,5 @@
 pool:
-  vmImage: ubuntu-16.04
+  vmImage: 'VS2017-Win2016'
 
 steps:
 - script: |
@@ -21,5 +21,5 @@ steps:
     archiveFile: "$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip"
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(System.DefaultWorkingDirectory)/$(Build.BuildId).zip'
-    name: 'drop'
+    PathtoPublish: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip'
+    ArtifactName: 'drop'
