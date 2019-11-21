@@ -5,10 +5,10 @@ using Microsoft.Extensions.Logging;
 
 namespace FunctionApp1
 {
-    public static class Function1
+    public static class BookingHotelFunction
     {
-        [FunctionName("Function1")]
-        public static void Run([ServiceBusTrigger("hotels", "myhotels", Connection = "")]string mySbMsg, ILogger log)
+        [FunctionName("BookingHotel")]
+        public static void Run([ServiceBusTrigger("booking", "booking-hotels", Connection = "")]string mySbMsg, ILogger log)
         {
             log.LogInformation($"C# ServiceBus topic trigger function processed message: {mySbMsg}");
             Console.WriteLine("Hello World");

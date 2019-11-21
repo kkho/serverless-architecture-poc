@@ -4,10 +4,10 @@ using Microsoft.ServiceBus.Messaging;
 
 namespace BookingFlights.Functions
 {
-    public static class Function1
+    public static class BookFlightFunction
     {
-        [FunctionName("Function1")]
-        public static void Run([ServiceBusTrigger("flights", "myflights", AccessRights.Manage, Connection = "")]string mySbMsg, TraceWriter log)
+        [FunctionName("BookFlight")]
+        public static void Run([ServiceBusTrigger("booking", "booking-flight", AccessRights.Manage, Connection = "")]string mySbMsg, TraceWriter log)
         {
             log.Info($"C# ServiceBus topic trigger function processed message: {mySbMsg}");
             
