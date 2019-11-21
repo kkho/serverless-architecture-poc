@@ -1,25 +1,53 @@
 pool:
   vmImage: 'VS2017-Win2016'
-
 steps:
-- script: |
-    dotnet restore
-    dotnet build --configuration Release
+- task: NuGetToolInstaller@1
+  displayName: 'Use NuGet '
+  inputs:
+    checkLatest: true
+
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+
+- task: UseDotNet@2
+  displayName: 'Use .Net Core sdk 2.2.104 '
+  inputs:
+    version: '2.2.104 '
+
 - task: DotNetCoreCLI@2
+  displayName: 'Restore project'
   inputs:
-    command: publish
-    arguments: '--configuration Release --output publish_output'
-    projects: '*.sln'
-    publishWebProjects: false
-    modifyOutputPath: true
-    zipAfterPublish: false
+    command: restore
+    projects: '**/*.sln'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build project'
+  inputs:
+    projects: '**/*.sln'
+    arguments: '--output publish_output --configuration Release'
+
 - task: ArchiveFiles@2
-  displayName: "Archive files"
+  displayName: 'Archive Booking Combination Durable Functions'
   inputs:
-    rootFolderOrFile: "$(System.DefaultWorkingDirectory)/publish_output/s"
+    rootFolderOrFile: 'Booking.Combination.DurableFunctions/publish_output/'
     includeRootFolder: false
-    archiveFile: "$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip"
-- task: PublishBuildArtifacts@1
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Booking-Combination-$(Build.BuildId).zip'
+
+- task: ArchiveFiles@2
+  displayName: 'Archive Booking Flight Function App'
   inputs:
-    PathtoPublish: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip'
-    ArtifactName: 'drop'
+    rootFolderOrFile: 'BookingFlights.Functions/publish_output/'
+    includeRootFolder: false
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Booking-Fights-$(Build.BuildId).zip'
+
+- task: ArchiveFiles@2
+  displayName: 'Archive Booking Hotel Function App'
+  inputs:
+    rootFolderOrFile: 'BookingHotels.Functions/publish_output/'
+    includeRootFolder: false
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Booking-Hotels-$(Build.BuildId).zip'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+
+
