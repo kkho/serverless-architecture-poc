@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using DurableTask.Core;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
@@ -12,7 +14,7 @@ namespace Booking.Combination.DurableFunctions.Functions
     {
         [FunctionName("BookingOrchestratorClient")]
         public static async Task<List<string>> RunOrchestrator(
-            [OrchestrationTrigger] DurableOrchestrationContext context)
+            [OrchestrationTrigger] IDurableOrchestrationContext context)
         {
             var outputs = new List<string>();
 
@@ -35,7 +37,7 @@ namespace Booking.Combination.DurableFunctions.Functions
         [FunctionName("BookingOrchestratorClient_HttpStart")]
         public static async Task<HttpResponseMessage> HttpStart(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")]HttpRequestMessage req,
-            [OrchestrationClient]DurableOrchestrationClient starter,
+            [OrchestrationTrigger]IDurableOrchestrationClient starter,
             ILogger log)
         {
             // Function input comes from the request content.
