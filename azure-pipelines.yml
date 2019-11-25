@@ -31,21 +31,21 @@ steps:
   inputs:
     rootFolderOrFile: 'BookingCombination/publish_output/'
     includeRootFolder: false
-    archiveFile: '$(Build.ArtifactStagingDirectory)/Booking-Combination-$(Build.BuildId).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Booking-Combination.zip'
 
 - task: ArchiveFiles@2
   displayName: 'Archive Booking Flight Function App'
   inputs:
     rootFolderOrFile: 'BookingFlight/publish_output/'
     includeRootFolder: false
-    archiveFile: '$(Build.ArtifactStagingDirectory)/Booking-Fights-$(Build.BuildId).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Booking-Fights.zip'
 
 - task: ArchiveFiles@2
   displayName: 'Archive Booking Hotel Function App'
   inputs:
     rootFolderOrFile: 'BookingHotel/publish_output/'
     includeRootFolder: false
-    archiveFile: '$(Build.ArtifactStagingDirectory)/Booking-Hotels-$(Build.BuildId).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Booking-Hotels.zip'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
