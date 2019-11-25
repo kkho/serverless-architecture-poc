@@ -26,6 +26,9 @@ namespace Booking.Common.Configurations
            return (KeyVaultUtility.GetCachedSecret(this.GetSettingAsString("KeyVaultUri"), name, "AzureBookingKeyCacheCache_" + name, cacheDate).Result);
        }
 
-       public string ServiceBusConnectionString => (GetSecretAsString("ServiceBusConnectionString"));
-    }
+       public string ServiceBusConnectionString => (GetSecretAsString("ServicebusConnectionString"));
+       public string RapidApiKey => (GetSecretAsString("rapidApiKey"));
+       public string SkyScannerHostApi => (GetSettingAsString("SkyScannerHostApi"));
+       public string SendGridApiKey => (GetSecretAsString("sendGridApiKey"));
+   }
 }

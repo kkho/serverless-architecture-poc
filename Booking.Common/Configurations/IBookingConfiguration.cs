@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Booking.Common.Configurations
+﻿namespace Booking.Common.Configurations
 {
     public interface IBookingConfiguration
     {
+        string ServiceBusConnectionString { get; }
+        string RapidApiKey { get; }
+        string SkyScannerHostApi { get; }
+        string SendGridApiKey { get; }
     }
 }

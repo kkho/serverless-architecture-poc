@@ -20,6 +20,7 @@ Add following to your local.settings.json:
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "AzureWebJobsDashboard": "UseDevelopmentStorage=true",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+	"SkyScannerHostApi": "<Uri host>"
     "KeyVaultUri": "<KeyVault URI>",
     "ServicebusConnectionString": "<Storage URI>"
   },
@@ -28,6 +29,7 @@ Add following to your local.settings.json:
     "LocalHttpPort": 7071,
     "CORS": "*"
   }
+ }
   ```
 
 ## Use case
