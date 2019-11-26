@@ -20,7 +20,7 @@ Add following to your local.settings.json:
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "AzureWebJobsDashboard": "UseDevelopmentStorage=true",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-	"SkyScannerHostApi": "<Uri host>"
+	  "SkyScannerHostApi": "<Uri host>",
     "KeyVaultUri": "<KeyVault URI>",
     "ServicebusConnectionString": "<Storage URI>"
   },
@@ -37,6 +37,7 @@ Showing a proof of concept for suggestions for booking flights and hotel. This w
 bus and call different apis.
 
 When the functions are done, the relevant user will get an email for suggestions of the given city, date and price.
+All content will be sent as an attachment in JSON format.
 
 
 ### Architecture approach
