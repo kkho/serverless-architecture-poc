@@ -1,7 +1,7 @@
 # Serverless Architecture - PoC for booking flights and hotels
 
 ## Azure DevOps Status
-
+[![Build Status](https://dev.azure.com/khiemho/PocSpace/_apis/build/status/kkho.serverless-architecture-poc?branchName=master)](https://dev.azure.com/khiemho/PocSpace/_build/latest?definitionId=3&branchName=master)
 ## Requirements
 ## Add Build pipeline to your Azure DevOps
 Use the azure-pipelines.yml and import it to a build pipeline.

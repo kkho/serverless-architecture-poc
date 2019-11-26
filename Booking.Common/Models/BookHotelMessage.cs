@@ -8,7 +8,9 @@ namespace Booking.Common.Models
     {
         public string Email { get; set; }
         public string DestinationCity { get; set; }
-        public string CheckInDate { get; set; }
-        public string CheckoutDate { get; set; }
+        public string ArrivalDate { get; set; }
+        public string DepartureDate { get; set; }
+        public int GuestQty { get; set; }
+        public int RoomQty { get; set; }
     }
 }
