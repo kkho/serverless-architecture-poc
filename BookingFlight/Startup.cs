@@ -1,4 +1,5 @@
 ﻿using Booking.Common.Configurations;
+using Booking.Common.Utilities;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,7 @@ namespace BookingFlights
             builder.Services.AddSingleton(config);
             builder.Services.AddHttpClient();
             builder.Services.AddTransient<IBookingConfiguration, BookingConfiguration>();
+            builder.Services.AddSingleton<SendGridService>();
         }
     }
 }

@@ -32,6 +32,25 @@ Add following to your local.settings.json:
  }
   ```
 
+Use Azure Service Bus Explorer and set property to the following if you need to send to specific subscribers:
+- Booking_Hotel
+- Booking_Flight
+- Booking_Combination
+
+Example of how the the message should be set up:
+
+
+
+For each message, the following should contain per subscriber:
+
+- Hotel
+
+
+- Flight
+
+- Combination
+
+
 ## Use case
 Showing a proof of concept for suggestions for booking flights and hotel. This will include Azure Functions and Durable Functions as a concept to fetch relevant data by getting a message from service 
 bus and call different apis.

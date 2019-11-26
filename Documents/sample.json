@@ -1,0 +1,24 @@
+// Flight message to use
+{
+  "Email": "test@test.com",
+  "CurrentCity": "OSL-sky",
+  "DestinationCity": "TYOA-sky",
+  "OutboundDate": "2019-12-01",
+  "ReturnDate": "2020-01-30"
+}
+
+// Hotel message to use
+
+
+// Combi message to use
+
+{
+  "Email": "test@test.com",
+  "CurrentCity": "OSL-sky",
+  "DestinationCity": "TYOA-sky",
+  "OutboundDate": "2019-12-01",
+  "ReturnDate": "2020-01-30",
+
+
+  
+}
