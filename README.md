@@ -7,8 +7,8 @@
 Use the azure-pipelines.yml and import it to a build pipeline.
 
 ## Add Release Pipeline to your Azure DevOps
-// Deploy will come later. The following content will include:
-- Azure Infrastructure setup
+// Deploy setup will come later. The following content will include:
+- Azure Infrastructure setup - All ARM templates are in CI folder
 - Deploy Functions to the specific Function Apps
 
 ## How to run locally
@@ -39,17 +39,50 @@ Use Azure Service Bus Explorer and set property to the following if you need to 
 
 Example of how the the message should be set up:
 
+<p align="center">
+<img src="Documents/Images/sample-message-servicebus.PNG"/>
+</p>
 
 
 For each message, the following should contain per subscriber:
 
 - Hotel
-
+```
+{
+  "Email": "test@test.com",
+  "DestinationCity": "Tokyo",
+  "ArrivalDate": "2019-12-01",
+  "DepartureDate": "2019-12-30",
+  "GuestQty": 1,
+  "RoomQty": 1,
+  "TravelPurpose": "leisure"
+}
+```
 
 - Flight
-
+```
+{
+  "Email": "test@test.com",
+  "CurrentCity": "OSL-sky",
+  "DestinationCity": "TYOA-sky",
+  "OutboundDate": "2019-12-01",
+  "ReturnDate": "2019-12-30"
+}
+```
 - Combination
-
+```
+{
+  "Email": "test@test.com",
+  "CurrentCityCode": "OSL-sky",
+  "DestinationCode": "TYOA-sky",
+  "DestinationCity": "Tokyo",
+  "OutboundDate": "2019-12-01",
+  "ReturnDate": "2019-12-30",
+  "GuestQty": 1,
+  "RoomQty": 1,
+  "TravelPurpose": "leisure"
+}
+```
 
 ## Use case
 Showing a proof of concept for suggestions for booking flights and hotel. This will include Azure Functions and Durable Functions as a concept to fetch relevant data by getting a message from service 
@@ -65,4 +98,4 @@ All content will be sent as an attachment in JSON format.
 </p>
 
 ## Powerpoint slides
-Not available
+Check in Documents folder for the file "Serverless-Architecture.pptx"

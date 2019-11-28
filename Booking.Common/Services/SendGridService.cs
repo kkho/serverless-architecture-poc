@@ -20,7 +20,7 @@ namespace Booking.Common.Utilities
             _configuration = configuration;
         }
 
-        public async Task<bool> SendEmailWithInformation(string email, BookFlightResult flightContent = null, string hotelContent = null)
+        public async Task<bool> SendEmailWithInformation(string email, string flightContent = null, string hotelContent = null)
         {
             var apiKey = _configuration.SendGridApiKey;
             var client = new SendGridClient(apiKey);
@@ -36,25 +36,18 @@ namespace Booking.Common.Utilities
 
             if (flightContent != null)
             {
-                var json = JsonConvert.SerializeObject(flightContent);
-                msg.AddAttachment(CreateAttachmentFromContent(json, "flight.json"));
+                msg.AddAttachment(CreateAttachmentFromContent(flightContent, "flight.json"));
             }
 
             if (hotelContent != null)
             {
-                var json = JsonConvert.SerializeObject(hotelContent);
-                msg.AddAttachment(CreateAttachmentFromContent(json, "hotel.json"));
+                msg.AddAttachment(CreateAttachmentFromContent(hotelContent, "hotel.json"));
             }
 
             var response = await client.SendEmailAsync(msg);
             var responseBody = await response.Body.ReadAsStringAsync();
 
-            if (response.StatusCode == HttpStatusCode.Accepted)
-            {
-                return true;
-            }
-
-            return false;
+            return response.StatusCode == HttpStatusCode.Accepted;
         }
 
         private Attachment CreateAttachmentFromContent(string dataContent, string filename)

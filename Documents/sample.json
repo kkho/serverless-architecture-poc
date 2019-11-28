@@ -4,21 +4,30 @@
   "CurrentCity": "OSL-sky",
   "DestinationCity": "TYOA-sky",
   "OutboundDate": "2019-12-01",
-  "ReturnDate": "2020-01-30"
+  "ReturnDate": "2019-12-30"
 }
 
 // Hotel message to use
-
+{
+  "Email": "test@test.com",
+  "DestinationCity": "Tokyo",
+  "ArrivalDate": "2019-12-01",
+  "DepartureDate": "2019-12-30",
+  "GuestQty": 1,
+  "RoomQty": 1,
+  "TravelPurpose": "leisure"
+}
 
 // Combi message to use
 
 {
   "Email": "test@test.com",
-  "CurrentCity": "OSL-sky",
-  "DestinationCity": "TYOA-sky",
+  "CurrentCityCode": "OSL-sky",
+  "DestinationCode": "TYOA-sky",
+  "DestinationCity": "Tokyo",
   "OutboundDate": "2019-12-01",
-  "ReturnDate": "2020-01-30",
-
-
-  
+  "ReturnDate": "2019-12-30",
+  "GuestQty": 1,
+  "RoomQty": 1,
+  "TravelPurpose": "leisure"
 }

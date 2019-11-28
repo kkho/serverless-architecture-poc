@@ -12,5 +12,6 @@ namespace Booking.Common.Models
         public string DepartureDate { get; set; }
         public int GuestQty { get; set; }
         public int RoomQty { get; set; }
+        public string TravelPurpose { get; set; }
     }
 }

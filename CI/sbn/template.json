@@ -1,0 +1,204 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "namespaceServiceBusName": {
+            "defaultValue": "booking-poc-sbn",
+            "type": "String"
+        }
+    },
+    "variables": {
+    },
+    "resources": [
+        {
+            "type": "Microsoft.ServiceBus/namespaces",
+            "apiVersion": "2018-01-01-preview",
+            "name": "[parameters('namespaceServiceBusName')]",
+            "location": "West Europe",
+            "sku": {
+                "name": "Standard",
+                "tier": "Standard"
+            },
+            "properties": {
+                "zoneRedundant": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/AuthorizationRules",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('namespaceServiceBusName'), '/RootManageSharedAccessKey')]",
+            "location": "West Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaceServiceBusName'))]"
+            ],
+            "properties": {
+                "rights": [
+                    "Listen",
+                    "Manage",
+                    "Send"
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('namespaceServiceBusName'), '/booking')]",
+            "location": "West Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaceServiceBusName'))]"
+            ],
+            "properties": {
+                "defaultMessageTimeToLive": "P14D",
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": false,
+                "duplicateDetectionHistoryTimeWindow": "PT10M",
+                "enableBatchedOperations": true,
+                "status": "Active",
+                "supportOrdering": true,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                "enablePartitioning": false,
+                "enableExpress": false
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/authorizationRules",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('namespaceServiceBusName'), '/booking/Root')]",
+            "location": "West Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaceServiceBusName'), 'booking')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaceServiceBusName'))]"
+            ],
+            "properties": {
+                "rights": [
+                    "Manage",
+                    "Send",
+                    "Listen"
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('namespaceServiceBusName'), '/booking/booking-combination')]",
+            "location": "West Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaceServiceBusName'), 'booking')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaceServiceBusName'))]"
+            ],
+            "properties": {
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": true,
+                "deadLetteringOnFilterEvaluationExceptions": true,
+                "maxDeliveryCount": 10,
+                "status": "Active",
+                "enableBatchedOperations": false,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('namespaceServiceBusName'), '/booking/booking-flight')]",
+            "location": "West Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaceServiceBusName'), 'booking')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaceServiceBusName'))]"
+            ],
+            "properties": {
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": true,
+                "deadLetteringOnFilterEvaluationExceptions": true,
+                "maxDeliveryCount": 10,
+                "status": "Active",
+                "enableBatchedOperations": false,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('namespaceServiceBusName'), '/booking/booking-hotel')]",
+            "location": "West Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaceServiceBusName'), 'booking')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaceServiceBusName'))]"
+            ],
+            "properties": {
+                "lockDuration": "PT30S",
+                "requiresSession": false,
+                "defaultMessageTimeToLive": "P14D",
+                "deadLetteringOnMessageExpiration": true,
+                "deadLetteringOnFilterEvaluationExceptions": true,
+                "maxDeliveryCount": 10,
+                "status": "Active",
+                "enableBatchedOperations": false,
+                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S"
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('namespaceServiceBusName'), '/booking/booking-combination/SourceFilter')]",
+            "location": "West Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaceServiceBusName'), 'booking', 'booking-combination')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaceServiceBusName'), 'booking')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaceServiceBusName'))]"
+            ],
+            "properties": {
+                "action": {
+                },
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "Source='Booking_Combination'",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('namespaceServiceBusName'), '/booking/booking-flight/SourceFilter')]",
+            "location": "West Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaceServiceBusName'), 'booking', 'booking-flight')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaceServiceBusName'), 'booking')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaceServiceBusName'))]"
+            ],
+            "properties": {
+                "action": {
+                },
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "Source='Booking_Flight'",
+                    "compatibilityLevel": 20
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('namespaceServiceBusName'), '/booking/booking-hotel/SourceFilter')]",
+            "location": "West Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaceServiceBusName'), 'booking', 'booking-hotel')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaceServiceBusName'), 'booking')]",
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaceServiceBusName'))]"
+            ],
+            "properties": {
+                "action": {
+                },
+                "filterType": "SqlFilter",
+                "sqlFilter": {
+                    "sqlExpression": "Source='Booking_Hotel'",
+                    "compatibilityLevel": 20
+                }
+            }
+        }
+    ]
+}

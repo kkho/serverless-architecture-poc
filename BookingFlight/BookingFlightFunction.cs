@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Booking.Common.Configurations;
 using Booking.Common.Constants;
 using Booking.Common.Models;
+using Booking.Common.Services;
 using Booking.Common.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,13 +20,13 @@ namespace BookingFlight
 {
     public class BookingFlightFunction
     {
-        private readonly HttpClient _client;
+        private readonly BookFlightService _bookFlightService;
         private readonly SendGridService _sendGridService;
         private readonly IBookingConfiguration _configuration;
 
-        public BookingFlightFunction(IHttpClientFactory httpClientFactory, SendGridService sendGridService, IBookingConfiguration configuration)
+        public BookingFlightFunction(BookFlightService bookFlightService, SendGridService sendGridService, IBookingConfiguration configuration)
         {
-            _client = httpClientFactory.CreateClient();
+            _bookFlightService = bookFlightService;
             _sendGridService = sendGridService;
             _configuration = configuration;
 
@@ -36,23 +37,10 @@ namespace BookingFlight
         {
             log.LogInformation($"C# ServiceBus topic trigger function processed message: {mySbMsg}");
 
-            _client.DefaultRequestHeaders.Add("X-RapidAPI-Key", _configuration.RapidApiKey);
-            _client.DefaultRequestHeaders.Add("X-RapidAPI-Host", _configuration.SkyScannerHostApi);
-            var country = Constants.Country;
-            var currency = Constants.Currency;
-            var locale = Constants.Locale;
-
             var bookFlightModel = JsonConvert.DeserializeObject<BookFlightMessage>(mySbMsg);
+            var bookFlightResult = await _bookFlightService.BookFlights(bookFlightModel);
 
-            var getRoutes = await _client.GetAsync(
-                $" https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/" +
-                $"{country}/{currency}/{locale}/{bookFlightModel.CurrentCity}/{bookFlightModel.DestinationCity}/{bookFlightModel.OutboundDate}/{bookFlightModel.ReturnDate}");
-
-            var content = await getRoutes.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<BookFlightResult>(content);
-
-            await _sendGridService.SendEmailWithInformation(bookFlightModel.Email, result, null);
-
+            await _sendGridService.SendEmailWithInformation(bookFlightModel.Email, bookFlightResult, null);
         }
 
         //[FunctionName("GetPosts")]
@@ -62,29 +50,17 @@ namespace BookingFlight
         //{
         //    log.LogInformation("C# HTTP trigger function processed a request.");
 
-        //    _client.DefaultRequestHeaders.Add("X-RapidAPI-Key", _configuration.RapidApiKey);
-        //    _client.DefaultRequestHeaders.Add("X-RapidAPI-Host", _configuration.SkyScannerHostApi);
-        //    var country = Constants.Country;
-        //    var currency = Constants.Currency;
-        //    var locale = Constants.Locale;
-
         //    var bookFlightModel = new BookFlightMessage
         //    {
-        //        Email = ",
+        //        Email = "test@test.com",
         //        CurrentCity = "OSL-sky",
         //        DestinationCity = "TYOA-sky",
         //        OutboundDate = "2019-12-01",
-        //        ReturnDate = "2020-01-30"
+        //        ReturnDate = "2019-12-30"
         //    };
 
-        //    var getRoutes = await _client.GetAsync(
-        //   $" https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/" +
-        //   $"{country}/{currency}/{locale}/{bookFlightModel.CurrentCity}/{bookFlightModel.DestinationCity}/{bookFlightModel.OutboundDate}/{bookFlightModel.ReturnDate}");
-
-        //    var content = await getRoutes.Content.ReadAsStringAsync();
-        //    var result = JsonConvert.DeserializeObject<BookFlightResult>(content);
-
-        //    await _sendGridService.SendEmailWithInformation(bookFlightModel.Email, result, null);
+        //    var bookFlightResult = await _bookFlightService.BookFlights(bookFlightModel);
+        //    await _sendGridService.SendEmailWithInformation(bookFlightModel.Email, bookFlightResult, null);
 
         //    return new OkResult();
         //}

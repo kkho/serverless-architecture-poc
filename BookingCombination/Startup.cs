@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Booking.Common.Configurations;
+﻿using Booking.Common.Configurations;
+using Booking.Common.Services;
+using Booking.Common.Utilities;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +19,10 @@ namespace BookingCombination
 
             builder.Services.AddSingleton(config);
             builder.Services.AddHttpClient();
-            builder.Services.AddTransient<IBookingConfiguration, BookingConfiguration>();}
+            builder.Services.AddTransient<IBookingConfiguration, BookingConfiguration>();
+            builder.Services.AddSingleton<SendGridService>();
+            builder.Services.AddSingleton<BookFlightService>();
+            builder.Services.AddSingleton<BookHotelService>();
+        }
     }
 }
