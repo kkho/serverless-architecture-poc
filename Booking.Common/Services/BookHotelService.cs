@@ -19,6 +19,7 @@ namespace Booking.Common.Services
 
         public async Task<string> BookHotels(BookHotelMessage message)
         {
+            _client.DefaultRequestHeaders.Clear();
             _client.DefaultRequestHeaders.Add("X-RapidAPI-Key", _configuration.RapidApiKey);
             var currency = Constants.Constants.Currency;
 

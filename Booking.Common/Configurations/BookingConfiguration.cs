@@ -22,8 +22,7 @@ namespace Booking.Common.Configurations
 
        public string GetSecretAsString(string name)
        {
-           var cacheDate = new DateTimeOffset(DateTime.Now.AddDays(15));
-           return (KeyVaultUtility.GetCachedSecret(this.GetSettingAsString("KeyVaultUri"), name, "AzureBookingKeyCacheCache_" + name, cacheDate).Result);
+           return (KeyVaultUtility.GetSecret(this.GetSettingAsString("KeyVaultUri"), name).Result);
        }
 
        public string ServiceBusConnectionString => (GetSecretAsString("ServicebusConnectionString"));

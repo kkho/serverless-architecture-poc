@@ -19,7 +19,7 @@ namespace BookingCombination
 
             builder.Services.AddSingleton(config);
             builder.Services.AddHttpClient();
-            builder.Services.AddTransient<IBookingConfiguration, BookingConfiguration>();
+            builder.Services.AddSingleton<IBookingConfiguration, BookingConfiguration>();
             builder.Services.AddSingleton<SendGridService>();
             builder.Services.AddSingleton<BookFlightService>();
             builder.Services.AddSingleton<BookHotelService>();
